@@ -1,49 +1,25 @@
-# Profile Evidence: Multi-Model Validation Framework for Robust Parameter Identifiability
+# Profile Evidence
 
 ## Overview
 
-This project implements and compares **Profile Likelihood (PL)** and **Profile Evidence (PE)** for parameter inference across multiple physical systems. We validate compensation detection on both a 2D damped oscillator and a Single-Machine Infinite Bus (SMIB) power system model. Our approach uses raw importance sampling with adaptive proposal scaling, backed by comprehensive overnight benchmarking with 72 configurations (2 models × 2 compensation regimes × 3 noise distributions × 6 seeds).
+Comparison of **Profile Likelihood (PL)** and **Profile Evidence (PE)** for parameter inference across multiple physical systems. Companion to this paper:
 
-## Method Summary
+## Summary
 
-This repository implements Profile Evidence (PE) alongside Profile Likelihood (PL) for parameter identifiability in dynamical systems. We use raw importance sampling (no PSIS) with an adaptive Gaussian-mixture proposal per grid point of the parameter of interest.
-
-Key elements:
-- Grid search over proposal scales (1x, 2x, 4x, 8x Laplace covariance)
-- Gaussian mixture proposal (70% main + 30% wide tail)
-- ESS-based scale selection for each ω point
-- Fixed sample size (N=2000) with reliable performance at T=200
-
-## Scientific Contribution
-
-### Compensation Detection
-PE robustly corrects PL's underestimated likelihood when nuisance parameters can compensate for the profiled parameter. This occurs through:
+PE corrects PL's underestimated likelihood when nuisance parameters can compensate for the profiled parameter. This occurs through:
 
 1. **Time-varying nuisance amplitude**: ζ(t) follows AR(1) dynamics + jitter
 2. **Correlated process noise**: Non-diagonal Q in simulation (diagonal in estimator)
 3. **Anisotropic measurements**: Higher noise on second observation channel
 4. **Model mismatch**: Creates compensation opportunities where PE > PL
 
-### Diagnostic Framework
-- **Compensation gain**: Laplace evidence - PL (positive indicates correction)
+### Diagnostics
+- **Compensation gain**: Laplace evidence - PL
 - **Ridge log-volume**: Measures nuisance parameter ridge width
-- **Delta curve**: PE_norm - PL_norm identifies correction regions
+- **Delta curve**: PE_norm - PL_norm
 - **ESS monitoring**: Ensures importance sampling reliability
 
-## Implementation
-
-### Core Files
-- `profile_evidence_oscillator.py`: Main analysis (2D oscillator)
-- `profile_evidence_smib.py`: SMIB (Single-Machine Infinite Bus) analysis with K (stiffness) as parameter of interest; D (damping) and δ₀ as nuisances
-- `multi_seed_benchmark.py`: Multi-seed, multi-regime robustness benchmark (targets `bulletproof_pe.py` by default)
-- `run_ten_configs.py`: Ten-configuration ablation runner (quick check)
-- `overnight_benchmark_optimized.py`: Comprehensive overnight benchmark (multi-model)
-- `run_overnight_benchmark.py`: Launcher with live logging
-- `run_SMIB_benchmark.py`: Polished 240-configuration validation launcher
-- `generate_evidence_from_results.py`: Re-materialize direct-evidence plots from saved results
-- `paper_release/`: Minimal paper copy and figures (excluded from repo by default)
-
-### System Architecture
+## Test Data
 ```
 2D Damped Oscillator: ẍ + γẋ + ω²x = ζω sin(ωt) + noise
 - Parameter of interest: ω (angular frequency)
@@ -75,19 +51,14 @@ y = x + v_t
 5. **Normalize** curves and compute confidence intervals
 6. **Generate** diagnostic plots and summaries
 
-### Robustness Sweeps (Publication-Grade)
+### Configuring Tests
 - Toggle compensation regime: `CFG.enable_comp_demo ∈ {True, False}`
 - Nuisance amplitude noise distributions for ζ dynamics: `CFG.zeta_noise_dist ∈ {'gaussian','laplace','student_t'}` with `CFG.zeta_t_nu` (default 4.0)
 - Multi-seed evaluation: seeds × regimes produce aggregated coverage/width/correlation metrics
 
-For SMIB (`bulletproof_pe_smib.py`), the same sweeps apply with ζ renamed to δ₀.
+For SMIB (`pe_SMIB.py`), the same sweeps apply with ζ renamed to δ₀.
 
-## Results and Outputs
-
-### Main Plots
-- `bulletproof_pe_results.png`: PL vs PE comparison with ESS and scale diagnostics
-- `bulletproof_pe_compensation.png`: Compensation gain, ridge volume, Mahalanobis distance
-- `pl_pe_delta.png`: Delta curve showing PE corrections
+## Results
 
 #### Quick Visuals (Oscillator vs SMIB)
 
