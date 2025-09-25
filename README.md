@@ -39,7 +39,7 @@ PE robustly corrects PL's underestimated likelihood when nuisance parameters can
 - `run_ten_configs.py`: Ten-configuration ablation runner (quick check)
 - `overnight_benchmark_optimized.py`: Comprehensive overnight benchmark (multi-model)
 - `run_overnight_benchmark.py`: Launcher with live logging
-- `run_polished_benchmark.py`: Polished 240-configuration validation launcher
+- `run_SMIB_benchmark.py`: Polished 240-configuration validation launcher
 - `generate_evidence_from_results.py`: Re-materialize direct-evidence plots from saved results
 - `paper_release/`: Minimal paper copy and figures (excluded from repo by default)
 
@@ -242,7 +242,7 @@ We provide a polished 240-configuration benchmark to establish causal dose–res
 
 Run:
 ```powershell
-python run_polished_benchmark.py
+python run_SMIB_benchmark.py
 ```
 Outputs include a consolidated statistical analysis (sign tests, Mann–Whitney between adjacent doses, Spearman correlations of compensation gain vs ridge log-volume) and a comprehensive text report summarizing dose–response trends and cross-model consistency.
 
