@@ -60,7 +60,7 @@ For SMIB (`pe_SMIB.py`), the same sweeps apply with ζ renamed to δ₀.
 
 ## Results
 
-#### Quick Visuals (Oscillator vs SMIB)
+#### First, some Quick Visuals (Oscillator vs SMIB)
 
 Oscillator (compensation ON):
 
