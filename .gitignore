@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+
+# Outputs and heavy artifacts
+outputs/**
+!outputs/.gitkeep
+
+# Papers and large figure bundles (excluded from repo)
+paper.tex
+paper_*/**
+paper_release/**
+paper_package/**
+paper_bundle_*/**
+conference_poster.tex
+bulletproof_pe_paper/**
+
+# Pickle and large data
+*.pkl
+*.csv
+
+# Review/bench scratch
+README_OVERNIGHT.md
+
+# Keep curated README assets
+!readme_assets/**
